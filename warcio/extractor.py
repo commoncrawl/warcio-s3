@@ -13,7 +13,7 @@ class Extractor(object):
         self.offset = offset
 
     def extract(self, payload_only, headers_only):
-        if self.filename.startswith('s3://'):
+        if self.filename.startswith(('s3://', 'http://', 'https://')):
             import smart_open
             import functools
             kwargs = {'compression': 'disable'}

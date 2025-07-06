@@ -31,8 +31,7 @@ def open_or_default(filename, mod, default_fh):
     if filename == '-' or filename == b'-':
         yield default_fh
     elif filename and isinstance(filename, str):
-        if filename.startswith('s3://'):
-            #raise NotImplemented('this has never been tested')
+        if filename.startswith(('s3://', 'http://', 'https://')):
             import smart_open
             res = smart_open.open(filename, mod, compression='disable')
         else:
