@@ -13,7 +13,14 @@ class Extractor(object):
         self.offset = offset
 
     def extract(self, payload_only, headers_only):
-        with open(self.filename, 'rb') as fh:
+        if self.filename.startswith('s3://'):
+            import smart_open
+            import functools
+            kwargs = {'compression': 'disable'}
+            my_open = functools.partial(smart_open.open, **kwargs)
+        else:
+            my_open = open
+        with my_open(self.filename, 'rb') as fh:
             fh.seek(int(self.offset))
             it = iter(ArchiveIterator(fh))
             record = next(it)

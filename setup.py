@@ -40,6 +40,9 @@ setup(
         ],
         'all': [
             'brotlipy',
+        ],
+        's3': [
+            'smart_open[s3]',
         ]
     },
     classifiers=[
