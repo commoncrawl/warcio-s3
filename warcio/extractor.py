@@ -1,6 +1,6 @@
 from warcio.archiveiterator import ArchiveIterator
 
-from warcio.utils import BUFF_SIZE
+from warcio.utils import BUFF_SIZE, open_or_default
 import sys
 
 
@@ -13,14 +13,7 @@ class Extractor(object):
         self.offset = offset
 
     def extract(self, payload_only, headers_only):
-        if self.filename.startswith(('s3://', 'http://', 'https://')):
-            import smart_open
-            import functools
-            kwargs = {'compression': 'disable'}
-            my_open = functools.partial(smart_open.open, **kwargs)
-        else:
-            my_open = open
-        with my_open(self.filename, 'rb') as fh:
+        with open_or_default(self.filename, 'rb') as fh:
             fh.seek(int(self.offset))
             it = iter(ArchiveIterator(fh))
             record = next(it)

@@ -42,7 +42,8 @@ setup(
             'brotlipy',
         ],
         's3': [
-            'smart_open[s3]',
+            'fsspec>=2024.10.0',
+            's3fs>=2024.10.0',
         ]
     },
     classifiers=[
