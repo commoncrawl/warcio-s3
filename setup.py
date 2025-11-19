@@ -44,6 +44,7 @@ setup(
         's3': [
             'fsspec>=2024.10.0',
             's3fs>=2024.10.0',
+            'botocore',
         ]
     },
     classifiers=[
