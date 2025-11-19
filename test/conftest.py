@@ -2,6 +2,11 @@ import os
 import uuid
 import pytest
 
+# IMPORTANT:
+# Import capture_http before any other indirect imports of urllib3/requests
+# This ensures the monkey patch is applied before boto3/botocore import urllib3
+from warcio.capture_http import capture_http  # noqa: F401
+
 try:
     import boto3
     import botocore  # noqa: F401
