@@ -25,17 +25,20 @@ _aws_s3_access_cache = None
 
 def check_aws_s3_access():
     """Check if AWS S3 access is available (cached result)."""
+    global _aws_s3_access_cache
+
+    if _aws_s3_access_cache is not None:
+        return _aws_s3_access_cache
+
+    if not HAS_AWS_DEPS:
+        return False
+
     from botocore.config import Config
     from botocore.exceptions import (
         NoCredentialsError,
         ClientError,
         EndpointConnectionError,
     )
-
-    global _aws_s3_access_cache
-
-    if _aws_s3_access_cache is not None:
-        return _aws_s3_access_cache
 
     try:
         config = Config(retries={"max_attempts": 1, "mode": "standard"})
@@ -54,16 +57,13 @@ def check_aws_s3_access():
 def requires_aws_s3(func):
     """Pytest decorator that checks if AWS S3 test can be run."""
     return pytest.mark.skipif(
-        DISABLE_S3_TESTS, reason="S3 test disabled via environment variable."
+        DISABLE_S3_TESTS, 
+        reason="S3 test disabled via environment variable."
     )(
         pytest.mark.skipif(
-            not HAS_AWS_DEPS, reason="S3 dependencies are not installed."
-        )(
-            pytest.mark.skipif(
-                not check_aws_s3_access(),
-                reason="S3 not accessible (no credentials or permissions)",
-            )(func)
-        )
+            not HAS_AWS_DEPS or not check_aws_s3_access(),
+            reason="S3 skipped (missing dependency or permissions)",
+        )(func)
     )
 
 
