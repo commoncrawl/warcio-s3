@@ -4,10 +4,11 @@ import pytest
 
 try:
     import boto3
+    import botocore  # noqa: F401
 
-    HAS_BOTO3 = True
+    HAS_AWS_DEPS = True
 except ImportError:
-    HAS_BOTO3 = False
+    HAS_AWS_DEPS = False
 
 
 TEST_S3_BUCKET = os.environ.get("WARCIO_TEST_S3_BUCKET", "commoncrawl-ci-temp")
@@ -51,7 +52,7 @@ def requires_aws_s3(func):
         DISABLE_S3_TESTS, reason="S3 test disabled via environment variable."
     )(
         pytest.mark.skipif(
-            not HAS_BOTO3, reason="S3 dependencies are not installed."
+            not HAS_AWS_DEPS, reason="S3 dependencies are not installed."
         )(
             pytest.mark.skipif(
                 not check_aws_s3_access(),
