@@ -1,9 +1,20 @@
+import pytest
 from warcio.utils import open_or_default
 from warcio.cli import main
 
 from . import get_test_file
 from .test_cli import check_helper
 from .conftest import requires_aws_s3
+
+try:
+    import fsspec  # noqa: F401
+    HAS_FSSPEC = True
+except ModuleNotFoundError:
+    HAS_FSSPEC = False
+
+
+if not HAS_FSSPEC:
+    pytest.skip("fsspec is not installed", allow_module_level=True)
 
 
 @requires_aws_s3
