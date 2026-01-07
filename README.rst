@@ -314,6 +314,7 @@ The block and payload digests are computed automatically.
 
 
 The library also includes additional semantics for:
+
  - Creating ``warcinfo`` and ``revisit`` records
  - Writing ``response`` and ``request`` records together
  - Writing custom WARC records
@@ -401,6 +402,28 @@ Specifying --payload or --headers will output only the payload or only the WARC 
 ::
 
     warcio extract [--payload | --headers] filename offset
+
+
+Remote File System Support
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The library supports reading and writing WARC files to a remote file system such as S3.
+For example, this can be used to read WARC files directly from `Common Crawl's S3 bucket <https://commoncrawl.org/get-started>`_.
+
+.. code:: bash
+    # read WARC from S3 and print the first 10 records
+    warcio index s3://commoncrawl/crawl-data/CC-MAIN-2025-51/segments/1764871645602.73/warc/CC-MAIN-20251215005813-20251215035813-00995.warc.gz | head -n 10
+
+
+This is implemented with `fsspec <https://filesystem-spec.readthedocs.io/en/latest/index.html>`_.
+By default, only HTTP, S3, and other built-in fsspec file systems are integrated as a remote file system.
+To enable other file systems, you need to install the corresponding fsspec dependencies such as ``fsspec[gcs]`` for Google Cloud storage or ``fsspec[all]`` for all file systems.
+
+
+Contributing
+~~~~~~~~~~~~
+
+See [CONTRIBUTING.rst](CONTRIBUTING.rst) for guidelines on contributing and running tests.
 
 
 License

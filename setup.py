@@ -37,9 +37,11 @@ setup(
             'requests',
             'wsgiprox',
             'hookdns',
+            'moto[s3,server]',
         ],
         'all': [
             'brotlipy',
+            'warcio[s3]',
         ],
         's3': [
             'fsspec>=2024.10.0',

@@ -4,7 +4,7 @@ import time
 from contextlib import contextmanager
 from wsgiref.simple_server import make_server
 
-from warcio.utils import open_or_default
+from warcio.utils import fsspec_open
 
 from . import get_test_file
 from .test_cli import check_helper
@@ -104,7 +104,7 @@ def test_read_warc_from_http():
 
     with mock_http_server(input_file_path) as http_url:
         # read from http
-        with open_or_default(http_url, "rb") as f:
+        with fsspec_open(http_url, "rb") as f:
             content = f.read().decode(errors="ignore")
 
             assert (

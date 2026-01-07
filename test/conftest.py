@@ -17,7 +17,7 @@ except ImportError:
 
 
 TEST_S3_BUCKET = os.environ.get("WARCIO_TEST_S3_BUCKET", "commoncrawl-ci-temp")
-DISABLE_S3_TESTS = bool(os.environ.get("WARCIO_DISABLE_S3_TESTS", False))
+ENABLE_S3_TESTS = bool(os.environ.get("WARCIO_ENABLE_S3_TESTS", False))
 
 # Cache for AWS access check to avoid repeated network calls
 _aws_s3_access_cache = None
@@ -57,8 +57,8 @@ def check_aws_s3_access():
 def requires_aws_s3(func):
     """Pytest decorator that checks if AWS S3 test can be run."""
     return pytest.mark.skipif(
-        DISABLE_S3_TESTS, 
-        reason="S3 test disabled via environment variable."
+        not ENABLE_S3_TESTS,
+        reason="S3 tests are NOT enabled via environment variable."
     )(
         pytest.mark.skipif(
             not HAS_AWS_DEPS or not check_aws_s3_access(),

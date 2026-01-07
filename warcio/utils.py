@@ -10,7 +10,7 @@ except ImportError:  #pragma: no cover
     import collections as collections_abc
 
 try:
-    from fsspec import open as fsspec_open
+    from fsspec import open as _fsspec_open
     HAS_FSSPEC = True
 except ImportError:
     HAS_FSSPEC = False
@@ -34,7 +34,7 @@ def to_native_str(value, encoding='utf-8'):
 
 # #===========================================================================
 @contextmanager
-def open_or_default(filename, mod, default_fh=None, **kwargs):
+def fsspec_open(filename, mod, default_fh=None, **kwargs):
     """
     Open a file using fsspec if available, otherwise use built-in open.
     """
@@ -42,7 +42,8 @@ def open_or_default(filename, mod, default_fh=None, **kwargs):
         yield default_fh
     elif filename and isinstance(filename, str):
         if HAS_FSSPEC:
-            with fsspec_open(filename, mode=mod, **kwargs) as f:
+            print("FSSPEC OPEN ", filename, mod, kwargs)
+            with _fsspec_open(filename, mode=mod, **kwargs) as f:
                 yield f
         else:
             builtin_kwargs = {k: v for k, v in kwargs.items() 

@@ -3,7 +3,7 @@ from warcio.exceptions import ArchiveLoadFailed
 
 from warcio.warcwriter import WARCWriter
 from warcio.bufferedreaders import DecompressingBufferedReader
-from warcio.utils import open_or_default
+from warcio.utils import fsspec_open
 
 import tempfile
 import shutil
@@ -23,7 +23,7 @@ class Recompressor(object):
         try:
             count = 0
             msg = ''
-            with open_or_default(self.filename, 'rb') as stream:
+            with fsspec_open(self.filename, 'rb') as stream:
                 try:
                     count = self.load_and_write(stream, self.output)
                     msg = 'No Errors Found!'
@@ -55,7 +55,7 @@ class Recompressor(object):
 
     def load_and_write(self, stream, output):
         count = 0
-        with open_or_default(output, 'wb') as out:
+        with fsspec_open(output, 'wb') as out:
             writer = WARCWriter(filebuf=out, gzip=True)
 
             for record in ArchiveIterator(stream,
