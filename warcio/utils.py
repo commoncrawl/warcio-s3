@@ -42,7 +42,6 @@ def fsspec_open(filename, mod, default_fh=None, **kwargs):
         yield default_fh
     elif filename and isinstance(filename, str):
         if HAS_FSSPEC:
-            print("FSSPEC OPEN ", filename, mod, kwargs)
             with _fsspec_open(filename, mode=mod, **kwargs) as f:
                 yield f
         else:

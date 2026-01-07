@@ -14,7 +14,6 @@ except ImportError:
         return pkg_resources.get_distribution(package).version
 import sys
 
-print("xxx")
 
 # ============================================================================
 def main(args=None):
