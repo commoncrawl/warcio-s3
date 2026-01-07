@@ -37,7 +37,7 @@ setup(
             'requests',
             'wsgiprox',
             'hookdns',
-            'moto[s3,server]',
+            'moto[server]',
         ],
         'all': [
             'brotlipy',
