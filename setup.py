@@ -34,10 +34,12 @@ setup(
             'pytest',
             'pytest-cov',
             'httpbin>=0.10.2',
-            'requests',
+            'requests>=2.32.5',
             'wsgiprox',
             'hookdns',
-            'moto[server]',
+            'moto[server]>=5.1.19',
+            'responses>=0.23.1,<0.26',
+            'pyparsing>=3.0.7,<4',
         ],
         'all': [
             'brotlipy',
@@ -46,8 +48,8 @@ setup(
         's3': [
             'fsspec>=2024.10.0',
             's3fs>=2024.10.0',
-            'botocore',
-            'boto3',
+            'botocore>=1.41.5',
+            'boto3>=1.41.5',
         ]
     },
     classifiers=[
