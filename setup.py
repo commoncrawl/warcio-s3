@@ -31,8 +31,8 @@ setup(
     extras_require={
         'testing': [
             'urllib3>=1.26.5,<1.26.16',
-            'pytest>=9.0.2',
-            'pytest-cov>=7.0.0',
+            'pytest>=8.3.5',
+            'pytest-cov',
             'httpbin>=0.10.2',
             'requests>=2.32.4',
             'wsgiprox',
@@ -40,6 +40,9 @@ setup(
             'moto[server]>=5.1.19',
             'responses>=0.23.1,<0.26',
             'pyparsing>=3.0.7,<4',
+            'PyYAML>=6.0',
+            'rpds-py>=0.20.0',
+            'jsonpointer>=2.0',
         ],
         'all': [
             'brotlipy',
