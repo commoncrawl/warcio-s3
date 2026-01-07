@@ -31,10 +31,10 @@ setup(
     extras_require={
         'testing': [
             'urllib3>=1.26.5,<1.26.16',
-            'pytest',
-            'pytest-cov',
+            'pytest>=9.0.2',
+            'pytest-cov>=7.0.0',
             'httpbin>=0.10.2',
-            'requests>=2.32.5',
+            'requests>=2.32.4',
             'wsgiprox',
             'hookdns',
             'moto[server]>=5.1.19',
@@ -46,8 +46,8 @@ setup(
             'warcio[s3]',
         ],
         's3': [
-            'fsspec>=2024.10.0',
-            's3fs>=2024.10.0',
+            'fsspec>=2025.12.0',
+            's3fs>=2025.12.0',
             'botocore>=1.41.5',
             'boto3>=1.41.5',
         ]
