@@ -31,30 +31,28 @@ setup(
     extras_require={
         'testing': [
             'urllib3>=1.26.5,<1.26.16',
-            'pytest>=8.3.5',
+            'pytest',
             'pytest-cov',
             'httpbin>=0.10.2',
-            'requests>=2.32.4',
+            'requests',
             'wsgiprox',
             'hookdns',
-            'moto[server]>=5.0.28,<5.2.0',
-            'responses>=0.23.1,<0.26',
-            'pyparsing>=3.0.7,<4',
-            'PyYAML>=6.0,<7',
-            'rpds-py>=0.20.0',
-            'jsonpointer>=2.0',
-            'cfn-lint>=0.40.0,<1.42',
-            'aws-sam-translator>=1.90.0,<1.104',
+            # remote testing
+            'warcio[remote]',
+            'moto>=4',
+            'flask',
+            'flask_cors',
+            'botocore',
         ],
         'all': [
             'brotlipy',
-            'warcio[s3]',
+            'warcio[remote]',
         ],
-        's3': [
-            'fsspec>=2025.3.0',
-            's3fs>=2025.3.0',
-            'botocore>=1.41.5',
-            'boto3>=1.41.5',
+        'remote': [
+            'fsspec',
+            's3fs',
+            'aiohttp',
+            'requests',
         ]
     },
     classifiers=[

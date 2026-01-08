@@ -407,8 +407,9 @@ Specifying --payload or --headers will output only the payload or only the WARC 
 Remote File System Support
 --------------------------
 
-The library supports reading and writing WARC files to a remote file system such as S3.
-For example, this can be used to read WARC files directly from `Common Crawl's S3 bucket <https://commoncrawl.org/get-started>`_. 
+The library supports reading and writing WARC files to a remote file system such as HTTP or S3. 
+To enable this feature, you need to install the optional dependencies with ``pip install warcio[remote]``.
+For example, you can then read WARC files directly from `Common Crawl's S3 bucket <https://commoncrawl.org/get-started>`_. 
 The command below will read a WARC file from S3 and print the first 10 records to stdin.
 
 ::
@@ -418,7 +419,7 @@ The command below will read a WARC file from S3 and print the first 10 records t
 
 This is implemented with `fsspec <https://filesystem-spec.readthedocs.io/en/latest/index.html>`_.
 By default, only HTTP, S3, and other built-in fsspec file systems are integrated.
-To enable other file systems, you need to install the corresponding fsspec dependencies such as ``fsspec[gcs]`` for Google Cloud storage or ``fsspec[all]`` for all available file systems.
+To support other file systems, you need to install the corresponding fsspec dependencies such as ``fsspec[gcs]`` for Google Cloud storage or ``fsspec[all]`` for all available file systems.
 
 
 Contributing

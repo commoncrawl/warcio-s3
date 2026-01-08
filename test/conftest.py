@@ -4,12 +4,11 @@ import pytest
 
 # IMPORTANT:
 # Import capture_http before any other indirect imports of urllib3/requests
-# This ensures the monkey patch is applied before boto3/botocore import urllib3
+# This ensures the monkey patch is applied before botocore imports urllib3
 from warcio.capture_http import capture_http  # noqa: F401
 
 try:
-    import boto3
-    import botocore  # noqa: F401
+    import botocore.session  # noqa: F401
 
     HAS_AWS_DEPS = True
 except ImportError:
@@ -42,7 +41,8 @@ def check_aws_s3_access():
 
     try:
         config = Config(retries={"max_attempts": 1, "mode": "standard"})
-        s3_client = boto3.client("s3", config=config)
+        session = botocore.session.Session()
+        s3_client = session.create_client("s3", config=config)
 
         # Try list objects on test bucket
         s3_client.list_objects_v2(Bucket=TEST_S3_BUCKET, MaxKeys=1)
@@ -61,9 +61,14 @@ def requires_aws_s3(func):
         reason="S3 tests are NOT enabled via environment variable."
     )(
         pytest.mark.skipif(
-            not HAS_AWS_DEPS or not check_aws_s3_access(),
-            reason="S3 skipped (missing dependency or permissions)",
-        )(func)
+            not HAS_AWS_DEPS,
+            reason="S3 unavailable (missing dependency)",
+        )(
+            pytest.mark.skipif(
+                not check_aws_s3_access(),
+                reason="S3 unavailable (no access)",
+            )(func)
+        )
     )
 
 
@@ -86,11 +91,12 @@ def s3_tmpdir():
 
     try:
         # Cleanup: delete all objects with this prefix
-        s3_client = boto3.client('s3')
+        session = botocore.session.Session()
+        s3_client = session.create_client('s3')
 
         # List all objects with the temp prefix
         response = s3_client.list_objects_v2(
-            Bucket=bucket_name, 
+            Bucket=bucket_name,
             Prefix=temp_prefix
         )
 

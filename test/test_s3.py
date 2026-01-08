@@ -14,7 +14,7 @@ except ModuleNotFoundError:
     HAS_FSSPEC = False
 
 try:
-    import boto3  # noqa: F401
+    import botocore.session  # noqa: F401
     import moto  # noqa: F401
     HAS_MOTO = True
 except ModuleNotFoundError:
@@ -26,7 +26,7 @@ if not HAS_FSSPEC:
 
 
 @pytest.fixture
-def mock_s3(monkeypatch):
+def mock_s3_tmpdir(monkeypatch):
     """Fixture that provides a mocked S3 backend using moto server."""
     if not HAS_MOTO:
         pytest.skip("moto is not installed")
@@ -49,7 +49,8 @@ def mock_s3(monkeypatch):
     monkeypatch.setenv("AWS_DEFAULT_REGION", "us-east-1")
 
     # Create mock bucket using the endpoint
-    s3_client = boto3.client(
+    session = botocore.session.Session()
+    s3_client = session.create_client(
         's3',
         region_name='us-east-1',
         endpoint_url=endpoint_url
@@ -140,13 +141,13 @@ def test_copy_to_s3_and_check_extract_live(s3_tmpdir, capsys):
     _test_copy_to_s3_and_check_extract(s3_tmpdir, capsys)
 
 
-def test_recompress_warc_verbose_mocked(capsys, mock_s3):
-    _test_recompress_warc_verbose(capsys, mock_s3)
+def test_recompress_warc_verbose_mocked(capsys, mock_s3_tmpdir):
+    _test_recompress_warc_verbose(capsys, mock_s3_tmpdir)
 
 
-def test_write_and_read_s3_mocked(mock_s3):
-    _test_write_and_read_s3(mock_s3)
+def test_write_and_read_s3_mocked(mock_s3_tmpdir):
+    _test_write_and_read_s3(mock_s3_tmpdir)
 
 
-def test_copy_to_s3_and_check_extract_mocked(mock_s3, capsys):
-    _test_copy_to_s3_and_check_extract(mock_s3, capsys)
+def test_copy_to_s3_and_check_extract_mocked(mock_s3_tmpdir, capsys):
+    _test_copy_to_s3_and_check_extract(mock_s3_tmpdir, capsys)
