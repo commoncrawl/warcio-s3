@@ -37,8 +37,8 @@ setup(
             'requests',
             'wsgiprox',
             'hookdns',
-            # remote testing
-            'warcio[remote]',
+            # fsspec testing
+            'warcio[s3]',  # note: drags in fsspec
             'moto>=4',
             'flask',
             'flask_cors',
@@ -46,9 +46,9 @@ setup(
         ],
         'all': [
             'brotlipy',
-            'warcio[remote]',
+            'warcio[s3]',
         ],
-        'remote': [
+        's3': [
             'fsspec',
             's3fs',
             'aiohttp',
@@ -60,7 +60,7 @@ setup(
         'Environment :: Web Environment',
         'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.7',
+        #'Programming Language :: Python :: 3.7',  # no longer in github actions
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',

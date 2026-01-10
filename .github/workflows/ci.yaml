@@ -2,7 +2,11 @@ name: CI
 
 on:
   push:
+    branches:
+    - master
   pull_request:
+    branches:
+    - master
 
 jobs:
   unit-tests:
@@ -11,16 +15,14 @@ jobs:
       fail-fast: false
       #max-parallel: 3
       matrix:
-        python-version: [
-          # '3.7', # not supported by GitHub actions anymore
-          '3.8', '3.9', '3.10', '3.11', '3.12', '3.13']
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12', '3.13']
         os: [ubuntu-latest]
         EXTRA: [false]  # used to force includes to get included
         include:
           - python-version: '3.12'
             os: ubuntu-latest
             EXTRA: true
-            NOTALL: true  # without warcio[all], currently not brotli
+            NOTALL: true  # without warcio[all]
           - python-version: '3.11'
             os: macos-latest
             EXTRA: true

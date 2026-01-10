@@ -407,15 +407,21 @@ Specifying --payload or --headers will output only the payload or only the WARC 
 Remote File System Support
 --------------------------
 
-The library supports reading and writing WARC files to a remote file system such as HTTP or S3. 
-To enable this feature, you need to install the optional dependencies with ``pip install warcio[remote]``.
-For example, you can then read WARC files directly from `Common Crawl's S3 bucket <https://commoncrawl.org/get-started>`_. 
-The command below will read a WARC file from S3 and print the first 10 records to stdin.
+The library supports reading and writing WARC files to a remote file system such as HTTP or S3.
+To enable this feature, you need to install the optional dependencies with ``pip install warcio[s3]``.
+For example, you can then read WARC files directly from `Common Crawl's S3 bucket <https://commoncrawl.org/get-started>`_.
+
+This command will read a WARC file from outside AWS, using https,  and print the first 10 records to stdin:
+
+::
+
+    warcio index https://data.commoncrawl.org/crawl-data/CC-MAIN-2025-51/segments/1764871645602.73/warc/CC-MAIN-20251215005813-20251215035813-00995.warc.gz | head -n 10
+
+This command will read a WARC file from from inside AWS, using S3, and print the first 10 records to stdin:
 
 ::
 
     warcio index s3://commoncrawl/crawl-data/CC-MAIN-2025-51/segments/1764871645602.73/warc/CC-MAIN-20251215005813-20251215035813-00995.warc.gz | head -n 10
-
 
 This is implemented with `fsspec <https://filesystem-spec.readthedocs.io/en/latest/index.html>`_.
 By default, only HTTP, S3, and other built-in fsspec file systems are integrated.
