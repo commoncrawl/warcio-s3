@@ -49,10 +49,7 @@ setup(
             'warcio[s3]',
         ],
         's3': [
-            'fsspec',
-            's3fs',
-            'aiohttp',
-            'requests',
+            'fsspec[s3]',
         ]
     },
     classifiers=[
