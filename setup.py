@@ -39,9 +39,8 @@ setup(
             'hookdns',
             # fsspec testing
             'warcio[s3]',  # note: drags in fsspec
-            'moto>=4',
-            'flask',
-            'flask_cors',
+            'moto[s3]>=4',
+            's3fs',  # needs to be explicit, to avoid async, which conflicts with moto
             'botocore',
         ],
         'all': [
