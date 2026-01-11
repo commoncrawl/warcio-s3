@@ -37,12 +37,22 @@ setup(
             'requests',
             'wsgiprox',
             'hookdns',
+            # fsspec testing
+            'warcio[s3]',  # note: drags in fsspec
+            'moto>=4',
+            'flask',
+            'flask_cors',
+            'botocore',
         ],
         'all': [
             'brotlipy',
+            'warcio[s3]',
         ],
         's3': [
-            'smart_open[s3]',
+            'fsspec',
+            's3fs',
+            'aiohttp',
+            'requests',
         ]
     },
     classifiers=[
@@ -50,7 +60,7 @@ setup(
         'Environment :: Web Environment',
         'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.7',
+        #'Programming Language :: Python :: 3.7',  # no longer in github actions
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
