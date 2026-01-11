@@ -41,6 +41,8 @@ setup(
             'warcio[s3]',  # note: drags in fsspec
             'moto[s3]>=4',
             's3fs',  # needs to be explicit, to avoid async, which conflicts with moto
+            'flask',
+            'flask_cors',
             'botocore',
         ],
         'all': [
